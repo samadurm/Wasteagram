@@ -16,6 +16,7 @@ class _ListScreenState extends State<ListScreen> {
     return MainScaffold(
         title: Text('Wastegram'),
         body: Center(child: Text('This is the List Screen')),
+        usingButton: true,
     );
   }
 }
