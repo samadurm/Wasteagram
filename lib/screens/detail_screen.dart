@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:wasteagram/models/post.dart';
 import 'package:wasteagram/widgets/main_scaffold.dart';
 
 class DetailScreen extends StatelessWidget {
@@ -7,9 +9,20 @@ class DetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    Post post = ModalRoute.of(context).settings.arguments;
+
     return MainScaffold(
       title: Text('Wastegram'),
-      body: Center(child: Text('Reached the detail screen')),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(child: Text('${DateFormat('EEEE, MMM d, yyyy').format(post.date)}')),
+          post.imageURL != '' ? Image.asset(post.imageURL) : Placeholder(),
+          Text('${post.wastedItems} items'),
+          Text('Location: (${post.latitude}, ${post.longitude})')
+        ],
+      )
     );
   }
 }
