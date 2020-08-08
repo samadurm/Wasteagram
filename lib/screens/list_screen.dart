@@ -11,8 +11,9 @@ class ListScreen extends StatefulWidget {
 class _ListScreenState extends State<ListScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      
+    return Scaffold(
+        appBar: AppBar(),
+        body: Center(child: Text('This is the List Screen')),
     );
   }
 }
