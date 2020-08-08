@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:wasteagram/widgets/main_scaffold.dart';
+
 
 class ListScreen extends StatefulWidget {
   
@@ -11,9 +13,10 @@ class ListScreen extends StatefulWidget {
 class _ListScreenState extends State<ListScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(),
+    return MainScaffold(
+        title: Text('Wastegram'),
         body: Center(child: Text('This is the List Screen')),
+        usingButton: true,
     );
   }
 }
