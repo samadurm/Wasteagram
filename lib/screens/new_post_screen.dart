@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:wasteagram/widgets/main_scaffold.dart';
+import 'package:wasteagram/widgets/new_post.dart';
 
 class NewPostScreen extends StatefulWidget {
   
@@ -31,15 +32,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
   Widget build(BuildContext context) {
     return MainScaffold(
       title: Text('Wastegram'),
-      body: Center(child: image == null ? CircularProgressIndicator() : sizedImage(image),),
+      body: Center(child: image == null ? CircularProgressIndicator() : NewPost(image: image),),
     );
   }
-}
-
-SizedBox sizedImage(File imageFile){
-  return SizedBox(
-    height: 300,
-    width: 400,
-    child: Image.file(imageFile),
-  );
 }
