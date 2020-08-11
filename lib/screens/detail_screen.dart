@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:wasteagram/models/post.dart';
+import 'package:wasteagram/models/food_waste_post.dart';
 import 'package:wasteagram/widgets/main_scaffold.dart';
 
 class DetailScreen extends StatelessWidget {
@@ -10,7 +10,7 @@ class DetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    Post post = ModalRoute.of(context).settings.arguments;
+    FoodWastePost post = ModalRoute.of(context).settings.arguments;
 
     return MainScaffold(
       title: Text('Wastegram'),
