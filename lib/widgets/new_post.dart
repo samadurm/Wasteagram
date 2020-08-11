@@ -63,7 +63,7 @@ class _NewPostState extends State<NewPost> {
                     _newWastePost.latitude = 0.08;
                     _newWastePost.longitude = 0.01;
 
-                    saveToCloud(_newWastePost, 'mock-posts');
+                    saveToCloud(_newWastePost, 'posts');
                   });
                   Navigator.of(context).pop();
                 }
