@@ -1,4 +1,4 @@
-class Post{
+class FoodWastePost{
 
   final int wastedItems;
   final String imageURL;
@@ -6,6 +6,6 @@ class Post{
   final double latitude;
   final double longitude;
 
-  Post({this.wastedItems, this.imageURL, this.date, this.latitude, this.longitude});
+  FoodWastePost({this.wastedItems, this.imageURL, this.date, this.latitude, this.longitude});
 
 }
