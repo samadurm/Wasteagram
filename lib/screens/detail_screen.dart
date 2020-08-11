@@ -18,7 +18,7 @@ class DetailScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Center(child: Text('${DateFormat('EEEE, MMM d, yyyy').format(post.date)}')),
-          post.imageURL != '' ? Image.asset(post.imageURL) : Placeholder(),
+          // post.imageURL != '' || post.imageURL == null ? Image.asset(post.imageURL) : Placeholder(),
           Text('${post.wastedItems} items'),
           Text('Location: (${post.latitude}, ${post.longitude})')
         ],
