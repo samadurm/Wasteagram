@@ -42,6 +42,10 @@ class _PostDisplayState extends State<PostDisplay> {
     return StreamBuilder(
       stream: Firestore.instance.collection('mock-posts').snapshots(),
       builder: (context, snapshot){
+        
+        if (!snapshot.hasData) return CircularProgressIndicator();
+        else if(snapshot.hasError) return Center(child: Text('Error!'),);
+
         return ListView.builder(
           itemCount: snapshot.data.documents.length,
           itemBuilder: (context, index){
