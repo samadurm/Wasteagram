@@ -1,11 +1,12 @@
 import 'dart:io';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 
 class FoodWasteSubmission{
   int wastedItems;
-  File image;
   String imageURL;
   DateTime date;
   double latitude;
@@ -54,13 +55,16 @@ class _NewPostState extends State<NewPost> {
 
                 if(_formKey.currentState.validate()){
                   _formKey.currentState.save();
+                  Future <String> uploadedUrl = uploadImage(widget.image);
 
-                  _newWastePost.image = widget.image;
-                  _newWastePost.date = DateTime.now();
-                  _newWastePost.latitude = 0.08;
-                  _newWastePost.longitude = 0.01;
-                  
-                  saveToCloud(_newWastePost, 'mock-posts');
+                  uploadedUrl.then((url) {
+                    _newWastePost.imageURL = url;
+                    _newWastePost.date = DateTime.now();
+                    _newWastePost.latitude = 0.08;
+                    _newWastePost.longitude = 0.01;
+
+                    saveToCloud(_newWastePost, 'mock-posts');
+                  });
                   Navigator.of(context).pop();
                 }
               } 
@@ -73,8 +77,21 @@ class _NewPostState extends State<NewPost> {
   }
 }
 
+Future<String> uploadImage(File image) async {
+  String filename = 'photo-${Random().nextInt(10000)}-${DateTime.now()}.jpg';
+  StorageReference storageRef = FirebaseStorage.instance.ref().child(filename);
+
+  StorageUploadTask upload = storageRef.putFile(image);
+  await upload.onComplete;
+  return await storageRef.getDownloadURL();
+}
+
 void saveToCloud(FoodWasteSubmission newWastePost, String collectionName){
+  
+  
+  
   Firestore.instance.collection(collectionName).add({
+    'imageUrl': newWastePost.imageURL,
     'wastedItems': newWastePost.wastedItems,
     'date': newWastePost.date,
     'latitude': newWastePost.latitude,
