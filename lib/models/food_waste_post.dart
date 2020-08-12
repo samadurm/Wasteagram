@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class FoodWastePost{
 
   final int wastedItems;
@@ -8,4 +10,15 @@ class FoodWastePost{
 
   FoodWastePost({this.wastedItems, this.imageURL, this.date, this.latitude, this.longitude});
 
+  factory FoodWastePost.fromMap(Map<String, dynamic> collection){
+    return FoodWastePost(
+      wastedItems: collection['wastedItems'],
+      imageURL: collection['imageURL'],
+      date: collection['date'],
+      latitude: collection['latitude'],
+      longitude: collection['longitude']
+    );
+  }
+
+  String getReadableDate() => DateFormat('EEEE, MMM d, yyyy').format(date);
 }
