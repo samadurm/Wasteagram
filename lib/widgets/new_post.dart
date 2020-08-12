@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/services.dart';
+import 'package:location/location.dart';
 
 
 class FoodWasteSubmission{
@@ -26,6 +28,38 @@ class _NewPostState extends State<NewPost> {
 
   final _formKey = GlobalKey<FormState>();
   FoodWasteSubmission _newWastePost = FoodWasteSubmission();
+  LocationData locationData;
+
+  void getLocation() async {
+    Location location = Location();
+    bool serviceEnabled = await location.serviceEnabled();
+
+    if(!serviceEnabled){
+      serviceEnabled = await location.serviceEnabled();
+    }
+    if(!serviceEnabled){
+      print('Could not enable service');
+      locationData = null;
+      return;
+    }
+
+    PermissionStatus permissionGranted = await location.hasPermission();
+    try {
+      if(permissionGranted == PermissionStatus.denied){
+        permissionGranted = await location.requestPermission();
+        if(permissionGranted != PermissionStatus.granted){
+          print('User declined location service');
+          // locationData = null;
+          // return;
+        }
+      }
+      locationData = await location.getLocation();
+    } on PlatformException catch (e) {
+        print('Error: ${e.toString()}, code: ${e.code}');
+        // locationData = null;
+    }
+    locationData = await location.getLocation();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,13 +89,20 @@ class _NewPostState extends State<NewPost> {
 
                 if(_formKey.currentState.validate()){
                   _formKey.currentState.save();
-                  Future <String> uploadedUrl = uploadImage(widget.image);
+                  getLocation();
 
+                  Future <String> uploadedUrl = uploadImage(widget.image);
                   uploadedUrl.then((url) {
                     _newWastePost.imageURL = url;
                     _newWastePost.date = DateTime.now();
-                    _newWastePost.latitude = 0.08;
-                    _newWastePost.longitude = 0.01;
+
+                    if(locationData != null){
+                      _newWastePost.latitude = locationData.latitude;
+                      _newWastePost.longitude = locationData.longitude;
+                    } else {
+                      _newWastePost.latitude = 0;
+                      _newWastePost.longitude = 0;
+                    }
 
                     saveToCloud(_newWastePost, 'posts');
                   });
@@ -87,9 +128,6 @@ Future<String> uploadImage(File image) async {
 }
 
 void saveToCloud(FoodWasteSubmission newWastePost, String collectionName){
-  
-  
-  
   Firestore.instance.collection(collectionName).add({
     'imageUrl': newWastePost.imageURL,
     'wastedItems': newWastePost.wastedItems,
@@ -98,3 +136,4 @@ void saveToCloud(FoodWasteSubmission newWastePost, String collectionName){
     'longitude': newWastePost.longitude
   });
 }
+
