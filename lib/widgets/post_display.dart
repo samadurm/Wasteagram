@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:intl/intl.dart';
 import 'package:wasteagram/models/food_waste_post.dart';
 import 'package:wasteagram/screens/detail_screen.dart';
 
@@ -27,6 +26,7 @@ class _PostDisplayState extends State<PostDisplay> {
           itemBuilder: (context, index){
 
             var post = snapshot.data.documents[index];
+
             FoodWastePost _wastePost = parseData(
               post['date'].toDate(), 
               post['imageUrl'], 
@@ -36,7 +36,7 @@ class _PostDisplayState extends State<PostDisplay> {
             );
 
             return ListTile(
-              title: Text(DateFormat('EEEE, MMM d, yyyy').format(_wastePost.date)),
+              title: Text(_wastePost.getReadableDate()),
               trailing: Text(_wastePost.wastedItems.toString(), textScaleFactor: 1.3,),
               onTap: () => Navigator.pushNamed(context, DetailScreen.routeName, arguments: _wastePost)
             );

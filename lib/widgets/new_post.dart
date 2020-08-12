@@ -49,14 +49,11 @@ class _NewPostState extends State<NewPost> {
         permissionGranted = await location.requestPermission();
         if(permissionGranted != PermissionStatus.granted){
           print('User declined location service');
-          // locationData = null;
-          // return;
         }
       }
       locationData = await location.getLocation();
     } on PlatformException catch (e) {
         print('Error: ${e.toString()}, code: ${e.code}');
-        // locationData = null;
     }
     locationData = await location.getLocation();
   }
