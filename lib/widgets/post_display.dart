@@ -35,10 +35,14 @@ class _PostDisplayState extends State<PostDisplay> {
               post['longitude'] 
             );
 
-            return ListTile(
-              title: Text(_wastePost.getReadableDate()),
-              trailing: Text(_wastePost.wastedItems.toString(), textScaleFactor: 1.3,),
-              onTap: () => Navigator.pushNamed(context, DetailScreen.routeName, arguments: _wastePost)
+            return Semantics(
+              child: ListTile(
+                title: Text(_wastePost.getReadableDate()),
+                trailing: Text(_wastePost.wastedItems.toString(), textScaleFactor: 1.3,),
+                onTap: () => Navigator.pushNamed(context, DetailScreen.routeName, arguments: _wastePost)
+              ),
+              enabled: true,
+              onTapHint: 'View details of post on ${_wastePost.getReadableDate()}',
             );
           }
         );

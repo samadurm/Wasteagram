@@ -22,11 +22,16 @@ class MainScaffold extends StatelessWidget {
   }
 }
 
-FloatingActionButton button(BuildContext context){
-  return FloatingActionButton(
-    child: Icon(Icons.add_a_photo),
-    onPressed: () { 
-      Navigator.pushNamed(context, NewPostScreen.routeName);
-    }
+Semantics button(BuildContext context){
+  return Semantics(
+      child: FloatingActionButton(
+        child: Icon(Icons.add_a_photo),
+        onPressed: () { 
+          Navigator.pushNamed(context, NewPostScreen.routeName);
+        }
+      ),
+      button: true,
+      enabled: true,
+      onTapHint: 'Take photo and create new post',
   );
 }

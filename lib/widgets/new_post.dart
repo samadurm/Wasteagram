@@ -63,49 +63,63 @@ class _NewPostState extends State<NewPost> {
     return Column(
       children: [
         Expanded(
-          child: Image.file(widget.image),
+          child: Semantics(
+            child: Image.file(widget.image),
+            enabled: true,
+            image: true,
+            label: 'Image just taken for new post',
+          )
         ),
         Form(
           key: _formKey,
           child: Column(children: [
-            TextFormField(
-              autofocus: true,
-              textAlign: TextAlign.center,
-              decoration: InputDecoration(labelText: 'Number of Wasted Items'),
-              keyboardType: TextInputType.number,
-              validator: (value){
-                return value.isEmpty ? 'Enter Number of Wasted Items' : null;
-              },
-              onSaved: (numWasted) { 
-                _newWastePost.wastedItems = int.parse(numWasted); 
-              }
-            ),
-            RaisedButton(
-              child: Icon(Icons.cloud_upload), 
-              onPressed: () { 
-
-                if(_formKey.currentState.validate()){
-                  _formKey.currentState.save();
-                  getLocation();
-
-                  Future <String> uploadedUrl = uploadImage(widget.image);
-                  uploadedUrl.then((url) {
-                    _newWastePost.imageURL = url;
-                    _newWastePost.date = DateTime.now();
-
-                    if(locationData != null){
-                      _newWastePost.latitude = locationData.latitude;
-                      _newWastePost.longitude = locationData.longitude;
-                    } else {
-                      _newWastePost.latitude = 0;
-                      _newWastePost.longitude = 0;
-                    }
-
-                    saveToCloud(_newWastePost, 'posts');
-                  });
-                  Navigator.of(context).pop();
+            Semantics(
+              enabled: true,
+              textField: true,
+              onTapHint: 'Enter number of wasted items',
+              child: TextFormField(
+                autofocus: true,
+                textAlign: TextAlign.center,
+                decoration: InputDecoration(labelText: 'Number of Wasted Items'),
+                keyboardType: TextInputType.number,
+                validator: (value){
+                  return value.isEmpty ? 'Enter Number of Wasted Items' : null;
+                },
+                onSaved: (numWasted) { 
+                  _newWastePost.wastedItems = int.parse(numWasted); 
                 }
-              } 
+              ),
+            ),
+            Semantics(
+              enabled: true,
+              button: true,
+              onTapHint: 'Submit Post',
+              child: RaisedButton(
+                child: Icon(Icons.cloud_upload), 
+                onPressed: () { 
+
+                  if(_formKey.currentState.validate()){
+                    _formKey.currentState.save();
+                    getLocation();
+
+                    Future <String> uploadedUrl = uploadImage(widget.image);
+                    uploadedUrl.then((url) {
+                      _newWastePost.imageURL = url;
+                      _newWastePost.date = DateTime.now();
+
+                      if(locationData != null){
+                        _newWastePost.latitude = locationData.latitude;
+                        _newWastePost.longitude = locationData.longitude;
+                      } else {
+                        _newWastePost.latitude = 0;
+                        _newWastePost.longitude = 0;
+                      }
+                      saveToCloud(_newWastePost, 'posts');
+                    });
+                    Navigator.of(context).pop();
+                  }
+                } 
+              ),
             )
           ],
           )
