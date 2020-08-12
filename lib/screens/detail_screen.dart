@@ -28,9 +28,19 @@ class DetailScreen extends StatelessWidget {
   }
 }
 
-Widget showImage(String url){
+Semantics showImage(String url){
   if(url == null || url.isEmpty){
-    return Placeholder();
+    return Semantics(
+      child: Placeholder(),
+      enabled: true,
+      image: false,
+      label: 'There is no image to display here',
+    );
   }
-  return Image.network(url);
+  return Semantics(
+    child: Image.network(url),
+    enabled: true,
+    image: true,
+    label: 'Image of Food Waste',
+  );
 }
