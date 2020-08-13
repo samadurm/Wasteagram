@@ -69,5 +69,4 @@ void main(){
 
     expect(testPost.getReadableDate(), DateFormat('EEEE, MMM d, yyyy').format(date));
   });
-  
 }
