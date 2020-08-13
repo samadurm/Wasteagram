@@ -18,7 +18,7 @@ class ListScreen extends StatelessWidget {
         stream: Firestore.instance.collection('posts').snapshots(),
         builder: (context, snapshot){
           
-          if (!snapshot.hasData || snapshot.data.documents.length == 0) 
+          if (!snapshot.hasData || snapshot.data.documents.length == 0 || snapshot.data.documents == null) 
             return Center(child: CircularProgressIndicator());
           else if(snapshot.hasError) 
             return Center(child: Text('Error!'),);

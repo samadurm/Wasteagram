@@ -1,8 +1,8 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:wasteagram/models/food_waste_post.dart';
+import 'package:wasteagram/widgets/detail_image.dart';
 import 'package:wasteagram/widgets/main_scaffold.dart';
+
 
 class DetailScreen extends StatelessWidget {
   
@@ -16,31 +16,20 @@ class DetailScreen extends StatelessWidget {
     return MainScaffold(
       title: Text('Wastegram'),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Center(child: Text(post.getReadableDate())),
-          showImage(post.imageURL),
-          Text('${post.wastedItems} items'),
-          Text('Location: (${post.latitude}, ${post.longitude})')
+          Center(child: Text(post.getReadableDate(), textScaleFactor: 1.5,)),
+          Flexible(
+            child: FractionallySizedBox(
+              widthFactor: 0.6,
+              heightFactor: 0.6,
+              child: DetailImage(url: post.imageURL)
+            ),
+          ),
+          Text('${post.wastedItems} items', textScaleFactor: 1.5,),
+          Text('Location: (${post.latitude}, ${post.longitude})', textScaleFactor: 1.2,)
         ],
       )
     );
   }
-}
-
-Semantics showImage(String url){
-  if(url == null || url.isEmpty){
-    return Semantics(
-      child: Placeholder(),
-      enabled: true,
-      image: false,
-      label: 'There is no image to display here',
-    );
-  }
-  return Semantics(
-    child: Image.network(url),
-    enabled: true,
-    image: true,
-    label: 'Image of Food Waste',
-  );
 }
