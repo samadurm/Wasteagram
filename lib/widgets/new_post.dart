@@ -61,19 +61,26 @@ class _NewPostState extends State<NewPost> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Expanded(
-          child: Semantics(
-            child: Image.file(widget.image),
-            enabled: true,
-            image: true,
-            label: 'Image just taken for new post',
+        Flexible(
+          child: FractionallySizedBox(
+            heightFactor: 0.6,
+            widthFactor: 0.6,
+            child: Semantics(
+              child: Image.file(widget.image),
+              enabled: true,
+              image: true,
+              label: 'Image just taken for new post',
+            ),
           )
         ),
         Form(
           key: _formKey,
-          child: Column(children: [
-            Semantics(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+            Semantics(  
               enabled: true,
               textField: true,
               onTapHint: 'Enter number of wasted items',
@@ -120,7 +127,7 @@ class _NewPostState extends State<NewPost> {
                   }
                 } 
               ),
-            )
+            ),
           ],
           )
         )
