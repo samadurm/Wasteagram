@@ -31,7 +31,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
   @override
   Widget build(BuildContext context) {
     return MainScaffold(
-      title: Text('Wastegram'),
+      title: Text('New Post'),
       body: Center(child: image == null ? CircularProgressIndicator() : NewPost(image: image),),
     );
   }
