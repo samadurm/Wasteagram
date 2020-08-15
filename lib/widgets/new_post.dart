@@ -84,17 +84,20 @@ class _NewPostState extends State<NewPost> {
               enabled: true,
               textField: true,
               onTapHint: 'Enter number of wasted items',
-              child: TextFormField(
-                autofocus: true,
-                textAlign: TextAlign.center,
-                decoration: InputDecoration(labelText: 'Number of Wasted Items'),
-                keyboardType: TextInputType.number,
-                validator: (value){
-                  return value.isEmpty ? 'Enter Number of Wasted Items' : null;
-                },
-                onSaved: (numWasted) { 
-                  _newWastePost.wastedItems = int.parse(numWasted); 
-                }
+              child: Padding(
+                padding: EdgeInsets.all(10),
+                  child: TextFormField(
+                    autofocus: false,
+                    textAlign: TextAlign.center,
+                    decoration: InputDecoration(labelText: 'Number of Wasted Items'),
+                    keyboardType: TextInputType.number,
+                    validator: (value){
+                      return value.isEmpty ? 'Enter Number of Wasted Items' : null;
+                    },
+                    onSaved: (numWasted) { 
+                      _newWastePost.wastedItems = int.parse(numWasted); 
+                    }
+                ),
               ),
             ),
             Semantics(
